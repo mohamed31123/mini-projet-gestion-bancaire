@@ -122,7 +122,11 @@ Calcul du total remboursé par prêt
 
 Graphiques : 
 
--CATEGORIE DES CLIENTS PAR VILLE : 
+-CATEGORIE DES CLIENTS PAR VILLE :
+
+
+<img width="901" height="319" alt="image" src="https://github.com/user-attachments/assets/70d0f3e8-441b-49f5-bd11-897b7855bc03" />
+
 
 
 <img width="876" height="313" alt="image" src="https://github.com/user-attachments/assets/cb0ab96b-095f-4875-a23d-9f804ce88b17" />
