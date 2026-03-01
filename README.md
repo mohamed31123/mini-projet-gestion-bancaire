@@ -174,6 +174,14 @@ UI : Fenêtres Swing (LoginFrame, MainMenu, ClientForm, etc.)
 
 <img width="1024" height="1536" alt="ChatGPT Image 1 mars 2026, 08_38_50" src="https://github.com/user-attachments/assets/123e16ae-72fd-40ca-83c2-c214dd7670d8" />
 
+**Video Demo :**
+
+
+https://github.com/user-attachments/assets/34fb3404-37b7-4fd7-8d1f-a36ccdfd3489
+
+
+
+
 🔐 Notes de sécurité
 
 Mot de passe utilisé pour Sign Up / Sign In doit être sécurisé et stocké hashé (actuellement en clair pour la démonstration)
