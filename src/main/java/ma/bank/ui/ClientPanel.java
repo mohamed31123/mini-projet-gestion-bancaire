@@ -53,6 +53,23 @@ public class ClientPanel extends JPanel {
             refreshTable();
             clearFields();
         });
+        // --- Bouton Modifier corrigé ---
+        btnUpdate.addActionListener(e -> {
+            int row = table.getSelectedRow();
+            if (row != -1) {
+                int id = (int) table.getValueAt(row, 0); // Récupère l'ID de la ligne sélectionnée
+                service.modifierClient(
+                        id,
+                        txtNom.getText(),
+                        txtCategorie.getText(),
+                        txtVille.getText()
+                );
+                refreshTable();
+                clearFields();
+            } else {
+                JOptionPane.showMessageDialog(this, "Sélectionnez un client à modifier !");
+            }
+        });
 
         btnDelete.addActionListener(e -> {
             int row = table.getSelectedRow();
