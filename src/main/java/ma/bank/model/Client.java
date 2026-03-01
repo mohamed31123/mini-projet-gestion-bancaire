@@ -6,8 +6,14 @@ public class Client {
     private String categorie;
     private String ville;
 
-    public Client() {}
+    // Constructeur pour les NOUVEAUX clients (SANS id)
+    public Client(String nom, String categorie, String ville) {
+        this.nom = nom;
+        this.categorie = categorie;
+        this.ville = ville;
+    }
 
+    // Constructeur pour les clients EXISTANTS (AVEC id)
     public Client(int id, String nom, String categorie, String ville) {
         this.id = id;
         this.nom = nom;
@@ -15,15 +21,46 @@ public class Client {
         this.ville = ville;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    // Getters et Setters
+    public int getId() {
+        return id;
+    }
 
-    public String getNom() { return nom; }
-    public void setNom(String nom) { this.nom = nom; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getCategorie() { return categorie; }
-    public void setCategorie(String categorie) { this.categorie = categorie; }
+    public String getNom() {
+        return nom;
+    }
 
-    public String getVille() { return ville; }
-    public void setVille(String ville) { this.ville = ville; }
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", categorie='" + categorie + '\'' +
+                ", ville='" + ville + '\'' +
+                '}';
+    }
 }

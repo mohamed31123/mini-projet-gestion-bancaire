@@ -1,7 +1,5 @@
 package ma.bank.dao;
 
-
-
 import ma.bank.model.Client;
 import ma.bank.util.DBConnection;
 
@@ -14,17 +12,24 @@ public class ClientDAO {
     public void save(Client c) {
         String sql = "INSERT INTO client(nom, categorie, ville) VALUES (?, ?, ?)";
         try (Connection cn = DBConnection.getConnection();
-             PreparedStatement ps = cn.prepareStatement(sql)) {
+             PreparedStatement ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, c.getNom());
             ps.setString(2, c.getCategorie());
             ps.setString(3, c.getVille());
             ps.executeUpdate();
 
+            // Récupérer l'ID généré automatiquement
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                c.setId(rs.getInt(1)); // L'objet Client aura maintenant son ID
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public void update(Client c) {
         String sql = "UPDATE client SET nom = ?, categorie = ?, ville = ? WHERE id = ?";
 
@@ -45,7 +50,7 @@ public class ClientDAO {
 
     public List<Client> findAll() {
         List<Client> list = new ArrayList<>();
-        String sql = "SELECT * FROM client";
+        String sql = "SELECT * FROM client ORDER BY id";
 
         try (Connection cn = DBConnection.getConnection();
              Statement st = cn.createStatement();
@@ -64,8 +69,8 @@ public class ClientDAO {
         }
         return list;
     }
-    public Client findById(int id) {
 
+    public Client findById(int id) {
         String sql = "SELECT * FROM client WHERE id = ?";
         Client client = null;
 
@@ -88,12 +93,12 @@ public class ClientDAO {
             e.printStackTrace();
         }
 
-        return client; // null si client inexistant
+        return client;
     }
-    public List<Client> findByCategorie(String categorie) {
 
+    public List<Client> findByCategorie(String categorie) {
         List<Client> clients = new ArrayList<>();
-        String sql = "SELECT * FROM client WHERE categorie = ?";
+        String sql = "SELECT * FROM client WHERE categorie = ? ORDER BY id";
 
         try (Connection cn = DBConnection.getConnection();
              PreparedStatement ps = cn.prepareStatement(sql)) {
@@ -116,6 +121,7 @@ public class ClientDAO {
 
         return clients;
     }
+
     public void delete(int id) {
         String sql = "DELETE FROM client WHERE id = ?";
         try (Connection cn = DBConnection.getConnection();
@@ -128,5 +134,4 @@ public class ClientDAO {
             e.printStackTrace();
         }
     }
-
 }

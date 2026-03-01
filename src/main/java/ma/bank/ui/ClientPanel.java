@@ -47,25 +47,33 @@ public class ClientPanel extends JPanel {
         add(new JScrollPane(table), BorderLayout.CENTER);
         add(actions, BorderLayout.SOUTH);
 
-        // --- Événements (Logique conservée) ---
+        // --- Événements ---
         btnAdd.addActionListener(e -> {
-            service.ajouterClient(txtNom.getText(), txtCategorie.getText(), txtVille.getText());
-            refreshTable();
-            clearFields();
+            if (!txtNom.getText().trim().isEmpty() && !txtVille.getText().trim().isEmpty()) {
+                service.ajouterClient(txtNom.getText(), txtCategorie.getText(), txtVille.getText());
+                refreshTable();
+                clearFields();
+            } else {
+                JOptionPane.showMessageDialog(this, "Le nom et la ville sont obligatoires!");
+            }
         });
-        // --- Bouton Modifier corrigé ---
+
         btnUpdate.addActionListener(e -> {
             int row = table.getSelectedRow();
             if (row != -1) {
-                int id = (int) table.getValueAt(row, 0); // Récupère l'ID de la ligne sélectionnée
-                service.modifierClient(
-                        id,
-                        txtNom.getText(),
-                        txtCategorie.getText(),
-                        txtVille.getText()
-                );
-                refreshTable();
-                clearFields();
+                if (!txtNom.getText().trim().isEmpty() && !txtVille.getText().trim().isEmpty()) {
+                    int id = (int) table.getValueAt(row, 0);
+                    service.modifierClient(
+                            id,
+                            txtNom.getText(),
+                            txtCategorie.getText(),
+                            txtVille.getText()
+                    );
+                    refreshTable();
+                    clearFields();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Le nom et la ville sont obligatoires!");
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Sélectionnez un client à modifier !");
             }
@@ -74,26 +82,41 @@ public class ClientPanel extends JPanel {
         btnDelete.addActionListener(e -> {
             int row = table.getSelectedRow();
             if (row != -1) {
-                service.supprimerClient((int) table.getValueAt(row, 0));
-                refreshTable();
+                int confirm = JOptionPane.showConfirmDialog(this,
+                        "Voulez-vous vraiment supprimer ce client?",
+                        "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    service.supprimerClient((int) table.getValueAt(row, 0));
+                    refreshTable();
+                    clearFields();
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Sélectionnez un client à supprimer !");
             }
         });
 
         btnRefresh.addActionListener(e -> refreshTable());
 
         table.getSelectionModel().addListSelectionListener(e -> {
-            int row = table.getSelectedRow();
-            if(row != -1) {
-                txtNom.setText((String) table.getValueAt(row, 1));
-                txtCategorie.setText((String) table.getValueAt(row, 2));
-                txtVille.setText((String) table.getValueAt(row, 3));
+            if (!e.getValueIsAdjusting()) {
+                int row = table.getSelectedRow();
+                if (row != -1) {
+                    txtNom.setText(table.getValueAt(row, 1) != null ? table.getValueAt(row, 1).toString() : "");
+                    txtCategorie.setText(table.getValueAt(row, 2) != null ? table.getValueAt(row, 2).toString() : "");
+                    txtVille.setText(table.getValueAt(row, 3) != null ? table.getValueAt(row, 3).toString() : "");
+                }
             }
         });
     }
 
     private void refreshTable() {
         List<Client> clients = service.listerClients();
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"ID","Nom","Catégorie","Ville"}, 0);
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"ID", "Nom", "Catégorie", "Ville"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         for (Client c : clients) {
             model.addRow(new Object[]{c.getId(), c.getNom(), c.getCategorie(), c.getVille()});
         }
@@ -101,6 +124,9 @@ public class ClientPanel extends JPanel {
     }
 
     private void clearFields() {
-        txtNom.setText(""); txtCategorie.setText(""); txtVille.setText("");
+        txtNom.setText("");
+        txtCategorie.setText("");
+        txtVille.setText("");
+        table.clearSelection();
     }
 }

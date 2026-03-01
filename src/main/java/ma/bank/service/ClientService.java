@@ -1,22 +1,20 @@
 package ma.bank.service;
 
-
-
 import ma.bank.dao.ClientDAO;
 import ma.bank.model.Client;
-
 import java.util.List;
 
 public class ClientService {
 
     private final ClientDAO clientDAO = new ClientDAO();
 
-    // 1️⃣ Ajouter un nouveau client
+    // 1️⃣ Ajouter un nouveau client - CORRIGÉ !
     public void ajouterClient(String nom, String categorie, String ville) {
-        if (nom == null || nom.isEmpty())
+        if (nom == null || nom.trim().isEmpty())
             throw new IllegalArgumentException("Nom client obligatoire");
 
-        Client c = new Client(0, nom, categorie, ville);
+        // ✅ Utilisation du constructeur SANS id (auto-incrémentation)
+        Client c = new Client(nom, categorie, ville);
         clientDAO.save(c);
     }
 
@@ -25,7 +23,7 @@ public class ClientService {
         return clientDAO.findAll();
     }
 
-    // 3️⃣ Lister clients par catégorie (filtrage réel)
+    // 3️⃣ Lister clients par catégorie
     public List<Client> listerClientsParCategorie(String categorie) {
         if (categorie == null || categorie.isEmpty())
             throw new IllegalArgumentException("Catégorie invalide");
@@ -38,24 +36,26 @@ public class ClientService {
         return clientDAO.findById(id);
     }
 
-    // 5️⃣ Vérifier si client existe (cas réel avant prêt)
+    // 5️⃣ Vérifier si client existe
     public boolean clientExiste(int clientId) {
         return clientDAO.findById(clientId) != null;
     }
+
+    // 6️⃣ Supprimer un client
     public void supprimerClient(int id) {
         clientDAO.delete(id);
     }
 
-    // Méthode pour modifier un client
+    // 7️⃣ Modifier un client
     public void modifierClient(int id, String nom, String categorie, String ville) {
         Client c = clientDAO.findById(id);
-        if(c != null) {
+        if (c != null) {
             c.setNom(nom);
             c.setCategorie(categorie);
             c.setVille(ville);
             clientDAO.update(c);
         } else {
-            throw new IllegalArgumentException("Client introuvable");
+            throw new IllegalArgumentException("Client introuvable avec l'ID: " + id);
         }
     }
 }
