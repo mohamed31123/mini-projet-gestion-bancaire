@@ -36,7 +36,17 @@ UML :
 -DIAGRAMME DE CLASSE :
 
 
+<img width="719" height="465" alt="image" src="https://github.com/user-attachments/assets/810b2fe6-acde-4390-932d-3757ca3fb309" />
+
+
+
+
 DIAGRAMME DE CAS D'UTILISATION :
+
+
+
+<img width="599" height="484" alt="image" src="https://github.com/user-attachments/assets/32340c2c-071d-4111-aef2-14013c99d5c9" />
+
 
 
 Configurer la base de données :
@@ -115,7 +125,9 @@ Graphiques :
 -CATEGORIE DES CLIENTS PAR VILLE : 
 
 
-<img width="843" height="310" alt="chart" src="https://github.com/user-attachments/assets/74b32d47-fec6-48f8-beff-36a0bfd1ed59" />
+<img width="876" height="313" alt="image" src="https://github.com/user-attachments/assets/cb0ab96b-095f-4875-a23d-9f804ce88b17" />
+
+
 
 Visualisation de l’encours total par mois via Swing Charts
 
